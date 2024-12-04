@@ -14,9 +14,9 @@ WhisperX is an advanced speech transcription tool designed for accurate, time-al
 ## Installation
 
 ### Prerequisites
-Install CUDNN:
+Install CUDNN and ffmpeg:
 ```bash
-sudo apt-get install cudnn
+sudo apt-get install cudnn ffmpeg
 ```
 
 ### Environment Setup
