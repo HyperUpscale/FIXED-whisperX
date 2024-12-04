@@ -3,6 +3,7 @@
 
 <img width="1216" align="center" alt="whisperx-arch" src="figures/pipeline.png">
 
+sudo apt-get install cudnn
 
 ### 1. Create Python3.10 environment -  Install PyTorch on UBUNTU 22.04 with CUDA11.8:
 
@@ -33,6 +34,8 @@ uv venv whisperx-uv-env --python 3.10
 source whisperx-uv-env/bin/activate
 uv pip install -r requirements.txt
 pip install ctranslate2==4.4.0
+
+
 
 cd web
 python app.py
