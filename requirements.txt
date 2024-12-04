@@ -1,7 +1,27 @@
-torch>=2
-torchaudio>=2
-faster-whisper==1.0.0
-transformers
-pandas
-setuptools>=65
-nltk
+# Core dependencies
+torch==2.5.1
+torchaudio==2.5.1
+numpy<2.0
+transformers==4.46.3
+ffmpeg-python
+einops==0.8.0
+librosa==0.10.2.post1
+omegaconf==2.3.0
+pytorch-lightning==2.4.0
+tensorboardX==2.6.2.2
+
+# WhisperX and its dependencies
+whisperx==3.1.6
+pyannote.audio==3.1.1
+faster-whisper==1.1.0
+
+# UI frameworks
+streamlit==1.40.2
+gradio==5.5.0
+flask
+
+# Additional dependencies
+setuptools>=65.5.1
+wheel>=0.38.0
+typing_extensions>=4.5.0
+huggingface_hub>=0.14.1
