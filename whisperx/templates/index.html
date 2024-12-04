@@ -52,17 +52,23 @@
             <div class="bg-white rounded-lg shadow-md p-6">
                 <h2 class="text-lg font-semibold mb-4">Transcribe from YouTube</h2>
                 <div class="space-y-4">
-                    <div>
-                        <label for="youtube-url" class="block text-sm font-medium text-gray-700">YouTube URL:</label>
-                        <input type="text" id="youtube-url" placeholder="https://www.youtube.com/watch?v=..." 
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <div class="flex space-x-6">
+                        <!-- YouTube URL Section -->
+                        <div class="flex-1">
+                            <label for="youtube-url" class="block text-sm font-medium text-gray-700">YouTube URL:</label>
+                            <input type="text" id="youtube-url" placeholder="https://www.youtube.com/watch?v=..." 
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                    
+                        <!-- Chunk Size Section -->
+                        <div class="flex-3">
+                            <label for="chunk-size" class="block text-sm font-medium text-gray-700">Chunk Size:</label>
+                            <input type="number" id="chunk-size" value="6" min="1" max="30" 
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <p class="mt-1 text-sm text-gray-500">Default: 1 </p>
+                        </div>
                     </div>
-                    <div>
-                        <label for="chunk-size" class="block text-sm font-medium text-gray-700">Chunk Size:</label>
-                        <input type="number" id="chunk-size" value="6" min="1" max="30" 
-                               class="mt-1 block w-32 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        <p class="mt-1 text-sm text-gray-500">Recommended: 5-10 for better results</p>
-                    </div>
+                    
                     <button onclick="transcribeYouTube()" 
                             class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                         Transcribe YouTube Video
@@ -98,7 +104,8 @@
             </div>
 
             <!-- Results Section -->
-            <div id="result" class="hidden bg-white rounded-lg shadow-md p-6">
+            <div id="result" class="hidden bg-white rounded-lg shadow-md p-6" contenteditable="true">
+
                 <!-- Results will be displayed here -->
             </div>
         </div>
