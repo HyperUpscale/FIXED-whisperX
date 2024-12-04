@@ -20,21 +20,22 @@ def initialize_model():
     compute_type = "float16" if device == "cuda" else "int8"
     
     try:
-        print(f"DEBUG: Initializing model - Device: {device}, Compute Type: {compute_type}")
         logger.info(f"Initializing model - Device: {device}, Compute Type: {compute_type}")
         
         # Load the model
         whisper_model = whisperx.load_model(
             "large-v2",  # You can make this configurable
             device, 
+            asr_options = {
+                    "hotwords": None,
+                    "multilingual": True
+                },
             compute_type=compute_type
         )
         
-        print("DEBUG: Model initialized successfully")
         logger.info("Model initialized successfully")
         
     except Exception as e:
-        print(f"DEBUG: Model initialization failed: {e}")
         logger.error(f"Model initialization failed: {e}")
         raise
 
@@ -42,7 +43,6 @@ def initialize_model():
 try:
     initialize_model()
 except Exception as e:
-    print(f"DEBUG: Failed to initialize model on import: {e}")
     logger.error(f"Failed to initialize model on import: {e}")
 
 class YouTubeTranscriber:
@@ -57,14 +57,10 @@ class YouTubeTranscriber:
             wav_path = self.download_and_convert(url)
             
             if not wav_path or not os.path.exists(wav_path):
-                print(f"DEBUG: WAV file not found at expected path: {wav_path}")
                 raise ValueError("Failed to download or convert YouTube video")
             
             if os.path.getsize(wav_path) == 0:
-                print("DEBUG: WAV file is empty")
                 raise ValueError("Downloaded WAV file is empty")
-            
-            print(f"DEBUG: WAV file created successfully at {wav_path}")
             
             try:
                 # Use the provided whisper model for transcription
@@ -74,27 +70,18 @@ class YouTubeTranscriber:
                 result = self.whisper_model.transcribe(
                     wav_path,
                     batch_size=16 if torch.cuda.is_available() else 1,
-                    language="en"  # You can make this configurable
+                    language="en"
                 )
                 
                 # Return the complete result - let app-uv.py handle the format
                 yield result
                     
-            except Exception as e:
-                print(f"DEBUG: Transcription error: {e}")
-                raise
-            
             finally:
                 # Cleanup the downloaded file
-                try:
-                    if os.path.exists(wav_path):
-                        os.remove(wav_path)
-                        print(f"DEBUG: Cleaned up WAV file: {wav_path}")
-                except Exception as e:
-                    print(f"DEBUG: Cleanup error: {e}")
+                if os.path.exists(wav_path):
+                    os.remove(wav_path)
                     
         except Exception as e:
-            print(f"DEBUG: YouTube processing error: {e}")
             raise
 
     def download_and_convert(self, url):
@@ -127,16 +114,14 @@ class YouTubeTranscriber:
             
             # Verify file exists and has content
             if not os.path.exists(wav_path):
-                raise ValueError(f"WAV file not found at {wav_path}")
+                raise ValueError(f"WAV file not found")
             
             if os.path.getsize(wav_path) == 0:
                 raise ValueError("Downloaded WAV file is empty")
                 
-            print(f"DEBUG: Downloaded audio to {wav_path}")
             return wav_path
                 
         except Exception as e:
-            print(f"DEBUG: Download error: {e}")
             raise
 
     def process_url(self, url, chunk_size=6):
